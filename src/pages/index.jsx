@@ -1,6 +1,7 @@
 import useStore from '@/helpers/store'
 import dynamic from 'next/dynamic'
-import Go from '@/components/dom/go'
+import LinkToCube from '@/components/dom/toCube'
+import LinkToShoe from '@/components/dom/toShoe'
 
 const Sphere = dynamic(() => import('@/components/canvas/Sphere'), {
   ssr: false,
@@ -11,7 +12,10 @@ const Page = ({ title }) => {
   return (
     <>
       <Sphere r3f />
-      <Go />
+      <nav className="absolute z-20 p-4 m-4 flex">
+        <LinkToCube />
+        <LinkToShoe />
+      </nav>
     </>
   )
 }

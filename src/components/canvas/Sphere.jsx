@@ -1,22 +1,18 @@
 import { Suspense } from 'react'
-import { Environment, MeshDistortMaterial, Sphere } from '@react-three/drei'
-import { a, useSpring } from '@react-spring/three'
-import useStore from '@/helpers/store'
-import { A11y, useA11y, useUserPreferences } from '@react-three/a11y'
+import { MeshDistortMaterial, Sphere, Stage } from '@react-three/drei'
+import { a } from '@react-spring/three'
+import { useUserPreferences } from '@react-three/a11y'
 
 const M = a(MeshDistortMaterial)
 
 const DarkSphere = () => {
   const { a11yPrefersState } = useUserPreferences()
-  const a11y = useA11y()
-  const { color } = useSpring({
-    color: a11y.focus || a11y.hover ? '#272727' : 'black',
-  })
+  const color = '#a8a8a8';
 
   return (
-    <Sphere args={[1, 32, 32]}>
+    <Sphere args={[1, 40, 40]}>
       <M
-        distort={a11yPrefersState.prefersReducedMotion ? 0 : 0.4}
+        distort={a11yPrefersState.prefersReducedMotion ? 0 : 0.25}
         color={color}
       />
     </Sphere>
@@ -24,20 +20,18 @@ const DarkSphere = () => {
 }
 
 const SphereComponent = () => {
-  const router = useStore((s) => s.router)
-
   return (
     <Suspense fallback={null}>
-      <A11y
-        role='link'
-        href='/box'
-        actionCall={() => {
-          router.push(`/box`)
-        }}
+      <Stage
+        contactShadow // Optional: creates a contactshadow underneath the content (default=true)
+        shadows // Optional: lights cast shadow (default=true)
+        adjustCamera // Optional: zooms the content in (default=true)
+        intensity={1} // Optional: light intensity (default=1)
+        environment="city" // Optional: environment (default=city)
+        // preset="portrait" // Optional: rembrandt (default) | portrait | upfront | soft
       >
         <DarkSphere />
-      </A11y>
-      <Environment preset={'studio'} />
+      </Stage>
     </Suspense>
   )
 }

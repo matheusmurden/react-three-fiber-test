@@ -1,20 +1,16 @@
 import { Suspense } from 'react'
-import { Environment, MeshDistortMaterial } from '@react-three/drei'
-import { a, useSpring } from '@react-spring/three'
+import { MeshDistortMaterial, Stage } from '@react-three/drei'
+import { a } from '@react-spring/three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry'
 import { extend } from '@react-three/fiber'
-import useStore from '@/helpers/store'
-import { A11y, useA11y, useUserPreferences } from '@react-three/a11y'
+import { useUserPreferences } from '@react-three/a11y'
 
 const M = a(MeshDistortMaterial)
 extend({ RoundedBoxGeometry })
 
 const RoundedDarkBox = () => {
   const { a11yPrefersState } = useUserPreferences()
-  const a11y = useA11y()
-  const { color } = useSpring({
-    color: a11y.focus || a11y.hover ? '#494949' : '#272727',
-  })
+  const color= '#a8a8a8'
 
   return (
     <mesh rotation={[45, 45, 45]}>
@@ -28,19 +24,18 @@ const RoundedDarkBox = () => {
 }
 
 const BoxComponent = () => {
-  const router = useStore((s) => s.router)
   return (
     <Suspense fallback={null}>
-      <A11y
-        role='link'
-        href='/'
-        actionCall={() => {
-          router.push(`/`)
-        }}
+      <Stage
+        contactShadow // Optional: creates a contactshadow underneath the content (default=true)
+        shadows // Optional: lights cast shadow (default=true)
+        adjustCamera // Optional: zooms the content in (default=true)
+        intensity={1} // Optional: light intensity (default=1)
+        environment="city" // Optional: environment (default=city)
+        // preset="portrait" // Optional: rembrandt (default) | portrait | upfront | soft
       >
         <RoundedDarkBox />
-      </A11y>
-      <Environment preset={'studio'} />
+      </Stage>
     </Suspense>
   )
 }

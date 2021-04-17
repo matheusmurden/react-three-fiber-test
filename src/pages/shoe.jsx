@@ -1,20 +1,20 @@
 import useStore from '@/helpers/store'
 import dynamic from 'next/dynamic'
 import LinkToSphere from '@/components/dom/toSphere'
-import LinkToShoe from '@/components/dom/toShoe'
+import LinkToCube from '@/components/dom/toCube'
 
-const Box = dynamic(() => import('@/components/canvas/Box'), {
+const Shoe = dynamic(() => import('@/components/canvas/Shoe'), {
   ssr: false,
 })
 
 const Page = () => {
-  useStore.setState({ title: 'Box' })
+  useStore.setState({ title: 'Shoe' })
   return (
     <>
-      <Box r3f />
+      <Shoe r3f />
       <nav className="absolute z-20 p-4 m-4 flex">
         <LinkToSphere />
-        <LinkToShoe />
+        <LinkToCube />
       </nav>
     </>
   )
